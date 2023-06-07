@@ -1,0 +1,10 @@
+=date_filter :created_at
+=text_filter :user_token
+=select_filter :status, Journal::STATUS.to_a
+=select_filter :request_type, BeOneCore.config.request_types
+=select_filter :http_method, BeOneCore.config.http_methods
+=select_filter :http_format, BeOneCore.config.http_formats
+
+=text_filter :user_login
+=text_filter :component
+=text_filter :activity

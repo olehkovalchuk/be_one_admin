@@ -1,0 +1,24 @@
+.modDiv{ng_controller: "#{@js_controller}Controller as baseCtrl", ng_init: "#{ @init_data.each_pair.map{|k,v| "#{k}=#{v.to_json}"}.join(';')}" ,data: {url: current_module_path,lang: I18n.locale,logo: @image_fields.to_json } }
+  .panel.panel-inverse
+    .panel-heading
+      .panel-heading-btn
+        %a.btn.btn-xs.btn-icon.btn-circle.btn-danger{ng_click: "closeModal()", href: "javascript:;"}
+          %i.fa.fa-times
+      %h4.panel-title=t("#{BeOneAdmin.config.class_name.downcase}.modules.#{@sufix}_header")
+    .panel-body
+      = form_tag current_module_path, novalidate: true, name: :itemForm, html:{autocomplete: "off"} do
+        = render template: _template_path(:_form)
+    .panel-footer
+      %ul{style: "color:red",ng_show:"itemForm.$submitted && !itemForm.$valid"}
+        =t("#{BeOneAdmin.config.class_name.downcase}.validation_errors")
+        %li{"ng-repeat" => "(key, errors) in itemForm.$error track by $index"}
+          %ul
+            %li{"ng-repeat" => "e in errors"}
+              {{ e.$name }}
+              =t("#{BeOneAdmin.config.class_name.downcase}.validation_errors_has_error")
+              %strong {{ key }}
+
+      - if user_can?(:create) || user_can?(:update)
+        %a.btn.btn-sm.btn-primary.m-r-5.ng-cloak.ng-hide{ng_show:"!isDisabled",ng_click: "save()" }=t("admin.save")
+        %a.btn.btn-sm.btn-default.ng-cloak.ng-hide{ng_show:"!isDisabled",ng_click: "resetForm()"}=t("#{BeOneAdmin.config.class_name.downcase}.reset")
+

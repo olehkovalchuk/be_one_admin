@@ -1,0 +1,24 @@
+/ Nested node template
+%script{:id => "nodes_renderer.html", :type => "text/ng-template"}
+  %i.jstree-icon.jstree-ocl{ng_click: "toggle(this)"}
+  %a.jstree-anchor{href:"javascript:;",ui_tree_handle:true,ng_class: "{'jstree-disabled':(node.nodes && node.nodes.length > 0),'jstree-hovered': hover}",context_menu:"menuOptions",context_menu_on:"click",ng_mouseenter:"hover = true",ng_mouseleave:"hover = false",ng_click: "get(node)"}
+    %i.jstree-icon.jstree-themeicon.fa.fa-folder.text-warning.fa-lg.jstree-themeicon-custom{ng_if: "node.nodes && node.nodes.length > 0"}
+    %i.jstree-icon.jstree-themeicon.fa.fa-file.text-warning.fa-lg.jstree-themeicon-custom{ng_if: "!node.nodes || node.nodes.length < 1"}
+    {{node.title}}
+  %ul.jstree-children{ ng_model: "node.nodes", ui_tree_nodes: "",ng_if: "node.nodes && node.nodes.length > 0"}
+    %li.jstree-node.jstree-leaf{ng_include: "'nodes_renderer.html'", ng_repeat: "node in node.nodes", ui_tree_node: "", ng_class:"{'jstree-last':$last,'jstree-closed':collapsed,'jstree-open':!collapsed}"}
+.row{ng_controller: "SettingsMenusController",data:{url:settings_menus_path}}
+  / begin col-6
+  .col-md-12
+    .panel.panel-inverse{"data-sortable-id" => "tree-view-4"}
+      .panel-heading
+        .panel-heading-btn
+          %a.btn.btn-xs.btn-icon.btn-circle.btn-success{ng_click: "reload()", href: "javascript:;"}
+            %i.fa.fa-repeat
+        %h4.panel-title=t("admin.menu_tree")
+      .panel-body
+        #tree-root.jstree.jstree-4.jstree-default{data_ui_tree: "treeOptions",data_drag_enabled: "false"}
+          %ul.jstree-container-ul.jstree-children{data_ui_tree_nodes: "", ng_model: "data"}
+            %li.jstree-node{"data-ng-repeat" => "node in data", "data-ui-tree-node" => "", ng_include: "'nodes_renderer.html'", ng_class:"{'jstree-last':$last,'jstree-closed':collapsed,'jstree-open':!collapsed}" }
+
+

@@ -1,0 +1,15 @@
+.uib-day {
+  &.from-date .btn {
+    background: #00acac !important;
+    border-color: #00acac !important;
+    opacity: 1 !important;
+
+    .text-info {
+      color: #fff !important;
+    }
+  }
+
+  &.range-date .btn {
+    background-color: rgba(204, 204, 204, 0.25) !important;
+  }
+}

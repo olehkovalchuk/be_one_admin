@@ -1,0 +1,14 @@
+module <%= BeOneAdmin.config.class_name.classify %> 
+  <% if namespace %>
+    module <%= namespace.classify %>
+      class <%= model.classify.pluralize %>Controller < Admin::ApplicationController
+        work_with model: "::<%= namespace.classify %>::<%= model.classify %>"
+      end
+    end
+  <% else %>
+    class <%= model.classify.pluralize %>Controller < Admin::ApplicationController
+      work_with model: "::<%= namespace.classify %>"
+    end
+  <% end %>
+end
+

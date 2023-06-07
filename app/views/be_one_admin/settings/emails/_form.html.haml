@@ -1,0 +1,8 @@
+.row
+  .col-md-12
+    = string_block :code
+.row
+  .col-md-12
+    = lang_tabs_block_v2 do |locale|
+      = input_for_lang_tabs :string, :subject , locale
+      = rich_text_editor :text, locale, required: true, id: "text_#{locale}", "full-page"=>"true"

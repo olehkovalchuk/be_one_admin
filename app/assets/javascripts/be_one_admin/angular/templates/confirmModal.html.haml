@@ -1,0 +1,12 @@
+.modal-header
+  %button.close{ng_click: "cancel()"} ×
+  %h4.modal-title {{title}}
+.modal-body
+  .alert.m-b-0{class: "alert-{{class}}"}
+    %h4
+      %i.fa.fa-info-circle
+      {{title}}
+    %p {{text}}
+.modal-footer
+  %a.btn.btn-sm.btn-white{ng_click: "cancel()"}=I18n.t("#{BeOneAdmin.config.class_name.downcase}.cancel")
+  %a.btn.btn-sm.btn-danger{ng_click: "confirm()", ng_show: "isConirm"}=I18n.t("#{BeOneAdmin.config.class_name.downcase}.OK")

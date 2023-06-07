@@ -1,0 +1,24 @@
+module <%= BeOneAdmin.config.class_name.classify %> 
+  <% if namespace %>
+    module <%= namespace.classify %>
+      module <%= model.classify %>Serializer
+        class Item < BeOneAdmin::Serializer
+          attributes :id
+        end
+        class List < BeOneAdmin::Serializer
+          attribute :id, type: :hidden
+        end
+      end
+    end
+  <% else %>
+    module <%= model.classify %>Serializer
+      class Item < BeOneAdmin::Serializer
+        attributes :id
+      end
+      class List < BeOneAdmin::Serializer
+        attribute :id, type: :hidden
+      end
+    end
+  <% end %>
+end
+

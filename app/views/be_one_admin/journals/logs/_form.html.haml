@@ -1,0 +1,52 @@
+%div.logs-form{ng_init:"body = {1:true,2:true}"}
+  .panel-inverse
+    .panel-heading{ng_click: "body[1] = !body[1]",ng_class:"{'card-header collapsed': !body[1] }"} Record data
+    .panel-body{ng_show:"body[1]"}
+      .table-responsive
+        %table.table.table-striped.m-b-0
+          %tbody
+            %tr{ng_if:"editedItem.description"}
+              %th Description
+              %td {{editedItem.description}}
+            %tr{ng_if:"editedItem.user_ip"}
+              %th IP
+              %td {{editedItem.user_ip}}
+            %tr{ng_if:"editedItem.user_agent"}
+              %th User Agent:
+              %td {{editedItem.user_agent}}
+            %tr{ng_if:"editedItem.user_login"}
+              %th Login:
+              %td {{editedItem.user_login}}
+            %tr{ng_if:"editedItem.user_token"}
+              %th Token:
+              %td {{editedItem.user_token}}
+            %tr{ng_if:"editedItem.client_country"}
+              %th Country:
+              %td 
+                {{editedItem.client_country}}
+                %img{ng_src: "/#{BeOneAdmin.config.class_name.downcase}/flags/{{editedItem.client_country}}.png"}
+            %tr{ng_if:"editedItem.component"}
+              %th Component:
+              %td {{editedItem.component}} {{editedItem.activity}}
+            %tr{ng_if:"editedItem.core_ip"}
+              %th Server IP:
+              %td {{editedItem.core_ip}}
+            %tr{ng_if:"editedItem.execution_time"}
+              %th Execution Time:
+              %td {{editedItem.execution_time}}
+            %tr{ng_if:"editedItem.http_method"}
+              %th Method:
+              %td {{editedItem.http_method}} {{editedItem.http_format}}
+  .panel-inverse
+    .panel-heading{ng_click: "body[2] = !body[2]",ng_class:"{'card-header collapsed': !body[2] }"} Argumnets
+    .panel-body{ng_show:"body[2]"}
+      %pre.html
+        %code.hljs.json
+          {{editedItem.args}}
+  .panel-inverse{ng_repeat: "file in editedItem.files"}
+    .panel-heading{ng_click: "body[file.id] = !body[file.id]",ng_class:"{'card-header collapsed': !body[file.id] }"} {{file.file_description}} {{file.created_at}}
+    .panel-body{ng_show:"body[file.id]"}
+      %pre.html
+        %code.hljs{ng_class:"file.content_type"}
+          {{file.content}}
+

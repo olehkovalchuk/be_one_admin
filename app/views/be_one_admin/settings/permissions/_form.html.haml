@@ -1,0 +1,15 @@
+.row
+  .col-md-12
+    = lang_tabs_block_v2 do |locale|
+      = input_for_lang_tabs :string, :title , locale
+.row
+  .col-md-10
+    = select_block :controller, :modules
+  .col-md-2
+    = state_block :allowed, initial_value: 'true'
+.row
+  .col-md-12
+    = tags_block :actions, {}, true
+
+
+    

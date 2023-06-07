@@ -1,0 +1,7 @@
+= form_for BeOneAdmin::Login.new({}), url: restore_path, class: "margin-bottom-0" do |f|
+  .form-group.m-b-20
+    =f.email_field :email, class: 'form-control form-control-lg', required: true, placeholder: t('admin.login.email')
+  .login-buttons
+    = f.submit t('admin.login.restore'), class: "btn btn-success btn-block btn-lg"
+  .m-t-20
+    =t('admin.login.go_to_auth',url: login_path).html_safe

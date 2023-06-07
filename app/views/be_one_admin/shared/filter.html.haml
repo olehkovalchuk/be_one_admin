@@ -1,0 +1,13 @@
+.panel.panel-inverse.filter-panel
+  .panel-heading
+    %h4.panel-title=t("#{BeOneAdmin.config.class_name.downcase}.filters")
+  .panel-footer
+    %button.btn.btn-sm.btn-primary.m-r-5{ng_click: "filter()" }=t("#{BeOneAdmin.config.class_name.downcase}.filter.apply")
+    %button.btn.btn-sm.btn-default{ng_click: "resetFilter()"}=t("#{BeOneAdmin.config.class_name.downcase}.filter.reset")
+  .panel-body
+    %fieldset
+      = form_tag current_module_path, novalidate: true, name: :filterForm do
+        = render template: _template_path(:_filter)
+  .panel-footer
+    %button.btn.btn-sm.btn-primary.m-r-5{ng_click: "filter()" }=t("#{BeOneAdmin.config.class_name.downcase}.filter.apply")
+    %button.btn.btn-sm.btn-default{ng_click: "resetFilter()"}=t("#{BeOneAdmin.config.class_name.downcase}.filter.reset")

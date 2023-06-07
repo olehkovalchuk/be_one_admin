@@ -1,0 +1,29 @@
+%div.logs-form{ng_init:"body = {1:true,2:true}"}
+  .panel-inverse
+    .panel-heading{ng_click: "body[1] = !body[1]",ng_class:"{'card-header collapsed': !body[1] }"} Record data
+    .panel-body{ng_show:"body[1]"}
+      .table-responsive
+        %table.table.table-striped.m-b-0
+          %tbody
+            %tr
+              %th Event
+              %td {{editedItem.event}}
+            %tr{ng_if:"editedItem.whodunnit"}
+              %th Login:
+              %td {{editedItem.whodunnit}}
+            %tr{ng_if:"editedItem.ip"}
+              %th IP
+              %td {{editedItem.ip}}
+            %tr{ng_if:"editedItem.user_agent"}
+              %th User Agent:
+              %td {{editedItem.user_agent}}
+            %tr
+              %th Item 
+              %td {{editedItem.item_type}} # {{editedItem.item_id}}
+  .panel-inverse
+    .panel-heading{ng_click: "body[2] = !body[2]",ng_class:"{'card-header collapsed': !body[2] }"} Changes
+    .panel-body{ng_show:"body[2]"}
+      %pre.html
+        %code.hljs.json
+          {{editedItem.object_changes}}
+

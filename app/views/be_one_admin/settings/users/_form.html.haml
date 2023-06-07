@@ -1,0 +1,36 @@
+.row
+  .col-md-12
+    =image_block :avatar
+.row
+  .col-md-4
+    = state_block :has_child_resource_scope, initial_value: 'false'
+  .col-md-4{ng_if: :is_system_owner}
+    = state_block :has_root_resource_scope, initial_value: 'false'
+  .col-md-4{ng_if: :is_system_owner}
+    = state_block :is_system_owner, initial_value: 'false'
+
+.row{ng_if: "!editedItem.has_root_resource_scope && !editedItem.is_system_owner"}
+  .col-md-6
+    = select_block :seller_id, :depots, ng_required: true
+  .col-md-6
+    = select_block :manager_id, :managers, ng_required: true
+
+
+.row
+  .col-md-3
+    =email_block :email, required: true
+  .col-md-3
+    =string_block :last_name, required: true
+  .col-md-3
+    =string_block :first_name, required: true
+  .col-md-3
+    =string_block :title, required: true
+.row
+  .col-md-2
+    = state_block :active, initial_value: 'false'
+  .col-md-2
+    = state_block :blocked, initial_value: 'false'
+  .col-md-3
+    = date_time_block :blocked_until, required: true, ng_required: 'editedItem.blocked', ng_disabled: '!editedItem.blocked', min_date: ''
+
+

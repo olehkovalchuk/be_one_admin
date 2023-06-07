@@ -1,0 +1,7 @@
+.modal-header
+  %button.close{ng_click: "cancel()"} ×
+  %h4.modal-title {{title}}
+.modal-body
+
+.modal-footer
+  %a.btn.btn-sm.btn-primary{ng_click: "confirm()"}=I18n.t("#{BeOneAdmin.config.class_name.downcase}.OK")

@@ -1,0 +1,28 @@
+!!!
+/[if IE 8] <html lang="en" class="ie8">
+/ [if !IE]><!
+%html{:lang => "en"}
+  / <![endif]
+  %head
+    =csrf_meta_tags
+    =csp_meta_tag
+    %meta{:charset => "utf-8"}/
+    %title=title_tag
+    %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}/
+    = stylesheet_link_tag "be_one_admin/application", media: "all"
+  %body
+    .login-cover
+      .login-cover-image
+      .login-cover-bg
+    #page-container
+      .login.login-v2
+        .login-header
+          .brand
+            %span.logo
+            %b=title_tag
+            - if login_desc
+              %small=login_desc
+          .icon
+            %i.fa.fa-lock
+        .login-content
+          = yield

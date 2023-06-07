@@ -1,0 +1,49 @@
+
+.table-responsive{ng_init:"lang=#{I18n.t("#{BeOneAdmin.config.class_name.downcase}.modules._actions").to_json}"}
+
+  %table.table.tree-grid
+    %thead
+      %tr
+        %th.header
+          %a{ng_if:"expandingProperty.sortable",ng_click:"sortBy(expandingProperty)"}
+            %span{ng_if:"!expandingProperty.sortable"}
+              {{expandingProperty.displayName || expandingProperty.field || expandingProperty}}
+              %i{ng_if:"expandingProperty.sorted", class:"{{expandingProperty.sortingIcon}} pull-right"}
+
+        %th.header{ng_repeat:"col in colDefinitions track by $index",ng_if:"col.type!='hidden'"}
+          {{col.displayName || col.field}}
+        %th.header{ng_if:"!(relationsMany | isEmpty)"}=I18n.t("#{BeOneAdmin.config.class_name.downcase}.modules.relations")
+        %th.header{ng_if:"!(relationsHabtm | isEmpty)"}=I18n.t("#{BeOneAdmin.config.class_name.downcase}.modules.relations")
+        %th.header{ng_if:"actions"}=I18n.t("#{BeOneAdmin.config.class_name.downcase}.modules.actions")
+
+    %tbody
+      %tr{ng_repeat:"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions:true track by row.branch.uid", ng_class:"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')", class:"tree-grid-row"}
+        %td
+          %a{ng_click:"user_clicks_branch(row.branch)"}
+            %i{ng_class:"row.tree_icon",ng_click:"row.branch.expanded = !row.branch.expanded",class:"indented tree-icon"}
+          %span{class:"indented tree-label", ng_click:"on_user_click(row.branch)"}
+            {{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}
+
+        %td{ng_repeat:"col in colDefinitions",ng_if:"col.type!='hidden'"}
+          %div{ng_if:"col.cellTemplate", compile:"col.cellTemplate", "cell-template-scope"=>"col.cellTemplateScope"}
+          %div{ng_if:"!col.cellTemplate"}
+            %span{ng_if:"isArray(row.branch[col.field])"}
+              %span.label.label-inverse{ng_repeat:"label in row.branch[col.field] track by $index",style:"margin-right:5px"}
+                {{label}}
+            %span{ng_if: "!isArray(row.branch[col.field]) && !col.type",ng_bind_html: "row.branch[col.field]"}
+            %input.js-switch{ui_switch: true, type: 'checkbox', ng_model: "row.branch[col.field]", ng_disabled: "true", ng_if:"'state'==col.type" }
+        %td{ng_show:"!(relationsMany | isEmpty)"}
+          %a.btn.btn-xs.btn-inverse{ng_repeat:"(key, value) in relationsMany",ng_click: "parent.manyRelation(row.branch[value],key)", href: "javascript:;", title:"{{lang[key]}}" }
+            %i.fa.fa-lightbulb-o
+            {{lang[key]}}
+
+
+        %td{ng_show:"!(relationsHabtm | isEmpty)"}
+          %a.btn.btn-xs.btn-inverse{ng_repeat:"(key, value) in relationsHabtm",ng_click: "parent.habtmRelation(row.branch[value],key)", href: "javascript:;", title:"{{lang[key]}}" }
+            %i.fa.fa-lightbulb-o
+            {{lang[key]}}
+
+        %td{ng_show:"actions"}
+          %a.btn.btn-xs{ng_repeat:"action in actions",class:"btn-{{action[1]}}",ng_click: "parent[action[0]](row.branch)", href: "javascript:;" }
+            %i.fa.fa-info
+            {{lang[action[0]]}}

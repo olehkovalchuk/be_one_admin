@@ -1,0 +1,102 @@
+en:
+  admin:
+    log_out: Log out
+    item_select: Select
+    add_new: Add
+    cancel: Cancel
+    OK: OK
+    choose: Choose
+    filter:
+      title: Title
+      apply: Apply
+      reset: Reset
+      state:
+        -
+         - "All"
+         -
+        -
+         - "Yes"
+         - 1
+        -
+         - "No"
+         - 0
+    modules:
+      relations: Relations
+      _actions:
+        show: Show
+        update: Edit
+        destroy: Destroy
+      menu_header: Menu
+      menu_title: Title 
+      menu_icon: Icon
+      permission_title: Title 
+      permission_header: Permission
+      permission_controller: Controller
+      permission_actions: Actions
+      permission_allowed: Allowed?
+      permission_roles: Roles
+      permission_users: Individual Users
+      permission_role_users: Role Users
+      role_title: Title 
+      role_header: Role 
+      role_description: Description
+      role_permissions: Permissions 
+      role_users: Users
+      user_email: Email 
+      user_name: Name
+      user_title: Position Title
+      user_signins_count: Sigins count
+      user_active: Active?
+      user_blocked: Blocked?
+      user_foto: Avatar
+      user_header: Admin User
+      user_individual_permissions: Individual Permissions
+      user_roles: Roles
+      user_last_name: Last Name 
+      user_first_name: First Name 
+      user_has_child_resource_scope: Has access to childs 
+      user_has_root_resource_scope: Has ROOT access
+      user_blocked_until: Blocked until
+      user_avatar: Avatar
+      email_subject: Subject 
+      email_code: Code
+      email_header: Admin Email Template
+      email_text: Text
+      log_request_type: Request type 
+      log_execution_time: Execution time
+      log_created_at: Created at
+      log_status: Status
+      log_description: Description
+      log_component: Component
+      log_activity: Activity
+      log_http_format: Response Format
+      log_format: Method/Format
+      log_header: Logs
+      log_user_ip: User IP
+      log_user_token: Token 
+      log_http_method: HTTP Method 
+      log_user_login: User Login
+      version_created_at: Create At
+      version_item_type: Type 
+      version_item_id: ID
+      version_whodunnit: User
+      version_event: Event
+      version_header: Versions
+      setting_code: Code 
+      setting_value: Value
+      setting_header: Settings
+    app_title_admin: BeOne Admin
+    navigation: Navigation
+    uniq_toke_desc: Uniq token
+    title: BeOneAdmin
+    desc: Your technology partner
+    main_dashboard: Welcome!
+    default_module_header: Default module header 
+    total_items: Total
+    login:
+      email: Email 
+      password: Password 
+      forgot_password: Forgot your password? Click <a href="%{url}">here</a> to restore
+      go_to_auth: Or authorize <a href="%{url}">here</a>
+      login: Sign in
+      restore: Restore password

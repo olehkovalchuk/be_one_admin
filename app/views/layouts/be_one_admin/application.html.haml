@@ -1,0 +1,120 @@
+!!!
+/[if IE 8] <html lang="en" class="ie8">
+/ [if !IE]><!
+%html{lang: I18n.locale}
+  / <![endif]
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{charset: "utf-8"}/
+    %title=title_tag
+    %meta{content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", name: "viewport"}/
+    / ================== BEGIN CSS|JS ==================
+    %link{href:"https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700", rel: "stylesheet"}/
+    %script{src: "https://cloud.tinymce.com/5/tinymce.min.js?apiKey=#{BeOneAdmin.config.tiny_mce_key}"}
+    = stylesheet_link_tag    "be_one_admin/application", media: "all"
+    = javascript_include_tag "be_one_admin/application"
+    = javascript_tag("availableLocales = #{I18n.available_locales.to_json}")
+    :javascript
+       window.appConfig = #{@app_config.to_json.html_safe}
+    = csrf_meta_tags
+  %body
+    / begin #page-container
+    #page-container.page-header-fixed.page-sidebar-fixed{ ng_controller: 'MainController',
+                                                          ng_class: "{'page-sidebar-minified': minifedSidebar, 'page-sidebar-toggled': !minifedSidebar}"}
+      / begin #header
+      #header.header.navbar.navbar-default
+        / begin container-fluid
+        .container-fluid
+          / begin mobile sidebar expand / collapse button
+          .navbar-header
+            %a.navbar-brand{ href: admin_root_path }
+              %span.navbar-logo
+              =t("admin.app_title_admin")
+            %button.navbar-toggle{"data-click"=>"sidebar-toggled", ng_click: "sidebarToogle()", href: "javascript:;"}
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
+          / end mobile sidebar expand / collapse button
+          / begin header navigation right
+          %ul.navbar-nav.navbar-right
+            %li.dropdown.navbar-user{ng_class: "{'open': true }"}
+              %strong.dropdown-toggle
+                %strong="#{I18n.t("admin.uniq_toke_desc")}: #{cookies[:user_token]}"
+            - if  current_admin.unread_notifications.any?
+              %li.dropdown{ng_class: "{'open': showNotificationMenu }"}
+                %a.dropdown-toggle.f-s-14{ng_click: "notificationMenuToogle()", href: "javascript:;"}
+                  %i.fa.fa-bell-o
+                  %span.label=current_admin.unread_notifications.count
+
+                %ul.dropdown-menu.media-list.pull-right.animated
+                  %li.dropdown-header=t("admin.notifications_count", count: current_admin.unread_notifications.count)
+                  - current_admin.unread_notifications.limit(5).each do |notification|
+                    %li.media{ng_hide: "readedNotifications | contains:#{notification.id}"}
+                      %a{ng_click: "showNotification(#{notification.id})"}
+                        .media-left
+
+                          %i{class: "fa media-object #{notification_class( notification.message_type )}" }
+                        .media-body
+                          %h6.media-heading=notification.heading
+                          .text-muted.f-s-11=distance_of_time_in_words_to_now( notification.created_at )
+                  - if current_admin.unread_notifications.count > 5
+                    %li.dropdown-footer.text-center
+                      %a{:href => "javascript:;"}=t("admin.view_more")
+            %li.dropdown.locales
+              %select.form-control{ ng_model: 'locale', ng_change: 'changeLocale()' }
+                %option{ ng_repeat: "locale in availableLocales", ng_value: 'locale' }
+                  {{locale.toUpperCase()}}
+        
+
+
+            %li.dropdown.navbar-user
+              %a.dropdown-toggle{ href: :'javascript:;', data: { toggle: :dropdown } }
+                = image_tag current_admin.presenter.foto, alt: "#{current_admin.last_name} #{current_admin.first_name}"
+                %span.hidden-xs= "#{current_admin.last_name} #{current_admin.first_name}"
+                %b.caret
+              .dropdown-menu.dropdown-menu-right
+                / %li.arrow
+                / %li
+                /   = link_to t("admin.edit_profile"), edit_user_path
+                / %li
+                /   = link_to user_notifications_path do
+                /     %span.badge.pull-right{class: current_admin.unread_notifications.count.zero? ? 'badge-primary' : 'badge-danger'}=current_admin.unread_notifications.count
+                /     =t("admin.notifications")
+                / %li.divider
+                = link_to t("admin.log_out"), admin_sign_out_path, class: "dropdown-item"
+          / end header navigation right
+      / end container-fluid
+      / end #header
+      / begin #sidebar
+      #sidebar.sidebar
+        / begin sidebar scrollbar
+        %div{ data: { scrollbar: 'left' } }
+          / begin sidebar user
+          %ul.nav
+            %li.nav-profile
+              .image
+                %a{:href => "javascript:;"}
+                  = image_tag current_admin.presenter.foto, alt: "#{current_admin.last_name} #{current_admin.first_name}"
+              .info
+                = "#{current_admin.last_name} #{current_admin.first_name}"
+                %small= current_admin.title
+          - cache current_admin do
+            = render_menu(current_admin)
+      .sidebar-bg
+      / end #sidebar
+      / begin #content
+      #content.content
+        = render_breadcrumbs
+        / end breadcrumb
+        / begin page-header
+        %h1.page-header
+          = module_header
+        / end page-header
+        / begin row
+        = yield
+
+      / begin scroll to top btn
+      %a.btn.btn-icon.btn-circle.btn-success.btn-scroll-to-top.fade{:href => "javascript:;"}
+        %i.fa.fa-angle-up
+      / end scroll to top btn
+    / end page container

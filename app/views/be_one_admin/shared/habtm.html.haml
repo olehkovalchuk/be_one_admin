@@ -1,0 +1,41 @@
+.panel.panel-inverse{ng_controller: "HabtmRelationController", data:{ url: @habtm_url } }
+  .panel-heading
+    .panel-heading-btn
+      %a.btn.btn-xs.btn-icon.btn-circle.btn-danger{ng_click: "closeModal()", href: "javascript:;"}
+        %i.fa.fa-times
+    %h4.panel-title=t("admin.modules.#{@sufix}_#{params[:type]}")
+  .panel-body
+    - if user_can?(:update_habtm)
+      .row
+        .col-md-4
+          %a.list-group-item.active{href: "javascript:;"}
+            = t("admin.available")
+
+            %input.pull-right{ng_click: "toggleA()", ng_model: "toggle", title: "Toggle all", type: "checkbox", value: "{{toggle}}"}/
+        .col-md-4.v-center.text-center
+          .btn-group
+            %a#btnA.btn.btn-default{ng_click: "bToA()", title: "Send to list 1"}
+              %i.fa.fa-2x.fa-chevron-left
+            %a#btnB.btn.btn-default{ng_click: "aToB()", title: "Send to list 2"}
+              %i.fa.fa-2x.fa-chevron-right
+          %h6.text-center=t("admin.move_from_list_to_list")
+        .col-md-4
+          %a.list-group-item.active{href: "javascript:;"}
+            = t("admin.exists")
+            %input.pull-right{ng_click: "toggleB()", ng_model: "toggle", title: "Toggle all", type: "checkbox", value: "{{toggle}}"}/
+    .row.habtm-items
+      .col-md-6
+        - if user_can?(:update_habtm)
+          #list1.list-group{"x-lvl-drop-target" => "true", "x-on-drop" => "drop(event, bToA)"}
+            %span{"ng-repeat" => "item in listA track by item.id"}
+              %a.list-group-item{"data-id" => "{{item.id}}", href: "javascript:;", "x-lvl-draggable" => "true"}
+                {{item.title}}
+                %input.pull-right{id: "{{item.id}}", name: "selectedA[]", ng_checked: "selectedA.indexOf(item.id) > -1", ng_click: "selectedA.push(item.id)", type: "checkbox", value: "{{item.id}}"}/
+      %div{class: user_can?(:update_habtm) ? "col-md-6" : "col-md-12"}
+        #list2.list-group{"x-lvl-drop-target" => "true", "x-on-drop" => "drop(event, aToB)"}
+          %span{"ng-repeat" => "item in listB track by item.id"}
+            %a.list-group-item{"data-id" => "{{item.id}}", href: "javascript:;", "x-lvl-draggable" => "true"}
+              {{item.title}}
+              - if user_can?(:update_habtm)
+                %input.pull-right{id: "{{item.id}}", name: "selectedB[]", ng_checked: "selectedB.indexOf(item.id) > -1", ng_click: "selectedB.push(item.id)", type: "checkbox", value: "{{item.id}}"}/
+

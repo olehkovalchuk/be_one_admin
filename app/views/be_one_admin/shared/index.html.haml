@@ -1,0 +1,11 @@
+.row{ ng_controller: "#{@js_controller}Controller as baseCtrl", ng_init: "#{@init_data.each_pair.map{|k,v| "#{k}=#{v.to_json}"}.join(';')}", class: current_module_path.parameterize, data:{ url: current_module_path,lang: I18n.locale } }
+
+  / begin col-10
+  %div{ class: @has_filter ? 'col-lg-10' : 'col-lg-12' }
+    = render "be_one_admin/shared/table"
+  / end col-10
+  - if @has_filter
+    / begin col-2
+    .col-lg-2
+      = render template: _template_path(:filter)
+    / end col-2

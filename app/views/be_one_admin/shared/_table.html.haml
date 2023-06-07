@@ -1,0 +1,107 @@
+/ begin panel
+.panel.panel-inverse
+  / begin panel-heading
+  .panel-heading
+    .panel-heading-btn
+      %span= "#{t("#{BeOneAdmin.config.class_name.downcase}.total_items")}: {{total}}"
+      %a.btn.btn-xs.btn-icon.btn-circle.btn-default{"data-click" => "panel-expand", :href => "javascript:;"}
+        %i.fa.fa-expand
+      %a.btn.btn-xs.btn-icon.btn-circle.btn-success{href: "javascript:;",ng_click:"itemsTable.reload()"}
+        %i.fa.fa-repeat
+    %h4.panel-title=t("#{BeOneAdmin.config.class_name.downcase}.modules.#{@sufix}_header")
+  / end panel-heading
+  / begin panel-body
+  .panel-body
+
+    .row.dataTables_wrapper
+      .col-sm-2
+        #data-table-responsive_length.dataTables_length
+          %label
+            Show
+            %select.form-control.input-sm{ng_model: 'perPage',ng_init:"perPage = '#{@limit}'"}
+              %option{ng_repeat: "i in [10,25,50,100]",value:"{{i}}"} {{i}}
+            entries
+      .col-sm-10
+        - avaiable_actions = @model_actions.except(:show, :update)
+        - if avaiable_actions.any? || @collection_actions.any?
+          #data-table-responsive_filter.dataTables_filter
+            %label
+              Actions:
+              - unless @cant_create
+                - if @foreign_key
+                  %a.btn.btn-success{href: "javascript:;",ng_click:"new('#{@foreign_key}','#{params[:id]}')" }
+                    %i.fa.fa-edit
+                    = t("#{BeOneAdmin.config.class_name.downcase}.add_new")
+                - else
+                  %a.btn.btn-success{href: "javascript:;",ng_click:"new()" }
+                    %i.fa.fa-edit
+                    = t("#{BeOneAdmin.config.class_name.downcase}.add_new")
+
+
+
+
+              - avaiable_actions.each_pair do |action,cls|
+                %a.btn{class:"btn-#{cls}",ng_click: "#{action}()",ng_show: "ifExist('#{action}')", title: t("admin.modules._actions.#{action}"),ng_class:"{'disabled': !hasSelected}"}
+                  %i.fa.fa-info
+                  = t("admin.modules._actions.#{action}")
+
+              - @collection_actions.each do |action|
+                %a.btn{class:"btn-inverse",ng_click: "#{action}()",ng_show: "ifExistCollection('#{action}')", title: t("admin.modules._actions.#{action}")}
+                  %i.fa.fa-info
+                  = t("admin.modules._actions.#{action}")
+
+    .row
+      .col-sm-12
+
+
+
+      %table#data-table-responsive.dataTable.table.table-striped.table-bordered.dtr-inline#itemsTable{ng_table: "itemsTable", ng_init:"activeIndex = {index: null}"}
+        %tr{ ng_repeat: "item in data", ng_class_odd: "'odd'", ng_class_even: "'even'", context_menu: "menuOptions", ng_class:"[item.cls,{'active-row':(activeIndex.index == $index)}]", ng_mouseenter: "activeIndex.index = $index", ng_dblclick:"#{@model_actions.keys.include?(:update) ? "update(item)" : "show(item)"}" }
+          - if avaiable_actions.any?
+            %td{ width:"1%",data: {title: "'#{t("#{BeOneAdmin.config.class_name.downcase}.item_select")}'" } }
+              %input{type: 'checkbox',ng_checked: false, checked: false, ng_click:"updateSelection(item)", ng_model: "selectedRows[item.id]", name:"item_to_change" ,data:{skip_context: 1}}
+          - @columns.each_pair do |column, options|
+            - next if :hidden == "#{options[:type]}".to_sym
+            %td{sortable: "'#{options[:sorting]}'", data: {title: "'#{t("#{BeOneAdmin.config.class_name.downcase}.modules.#{@sufix}_#{column}")}'" } }
+              - case options[:type]
+              - when :enum
+                %span.label{class:"label-{{item.#{column}}}"}
+                  = "{{item.#{column}_text}}"
+              - when :state
+                %input{ui_switch: true, type: 'checkbox', ng_model: "item.#{column}", ng_disabled: "true" }
+              - when :image
+                %img.grig-image.img-rounded{ ng_src: "{{item.#{column}}}"}
+              - when :column
+                %ul.grid-column-list
+                  %li{ng_repeat:"label in item.#{column} track by $index"}
+                    {{label}}
+              - else
+                %span{ng_if:"isArray(item.#{column})"}
+                  %span.label.label-inverse{ng_repeat:"label in item.#{column} | unique",style:"margin-right:5px"}
+                    {{label}}
+                %span{ng_if: "!isArray(item.#{column})",ng_bind_html: "item.#{column}"}
+
+          - if @habtm_relations.any?
+            %td{data: {title: "#{t("#{BeOneAdmin.config.class_name.downcase}.modules.relations").to_json}" }}
+              - @habtm_relations.each_pair do |relation,foreign_key|
+                %a.btn.btn-xs.btn-inverse{ng_click: "habtmRelation(item.#{foreign_key},'#{relation}')", href: "javascript:;", title: t("#{BeOneAdmin.config.class_name.downcase}.modules.#{@sufix}_#{relation}").to_json}
+                  %i.fa.fa-lightbulb-o
+                  = t("#{BeOneAdmin.config.class_name.downcase}.modules.#{@sufix}_#{relation}")
+          - if @has_many_relations.any?
+            %td{data: {title: "#{t("#{BeOneAdmin.config.class_name.downcase}.modules.relations").to_json}" } }
+              - @has_many_relations.each_pair do |relation,foreign_key|
+                %a.btn.btn-xs.btn-inverse{ng_click: "manyRelation(item.#{foreign_key},'#{relation}',#{@additional_keys.inject({}){|hash,k| hash[k] = "item.#{k}";hash }.to_json.gsub('"','')})", href: "javascript:;", title: t("#{BeOneAdmin.config.class_name.downcase}.modules.#{@sufix}_#{relation}").to_json}
+                  %i.fa.fa-lightbulb-o
+                  = t("#{BeOneAdmin.config.class_name.downcase}.modules.#{@sufix}_#{relation}")
+
+          - if @has_one_relations.any?
+            %td{data: {title: "#{t("#{BeOneAdmin.config.class_name.downcase}.modules.relations").to_json}" } }
+              - @has_one_relations.each_pair do |relation,foreign_key|
+                %a.btn.btn-xs.btn-inverse{ng_click: "oneRelation(item.#{foreign_key},'#{relation}',#{@additional_keys.inject({}){|hash,k| hash[k] = "item.#{k}";hash }.to_json.gsub('"','')})", href: "javascript:;", title: t("#{BeOneAdmin.config.class_name.downcase}.modules.#{@sufix}_#{relation}").to_json}
+                  %i.fa.fa-lightbulb-o
+                  = t("#{BeOneAdmin.config.class_name.downcase}.modules.#{@sufix}_#{relation}")
+
+
+
+  / end panel-body
+/ end panel

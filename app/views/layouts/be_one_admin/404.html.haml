@@ -1,0 +1,30 @@
+!!!
+/[if IE 8] <html lang="en" class="ie8">
+/ [if !IE]><!
+%html{lang: I18n.locale}
+  / <![endif]
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{charset: "utf-8"}/
+    %title=t("#{BeOneAdmin.config.class_name.downcase}.app_title")
+    %meta{content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", name: "viewport"}/
+    / ================== BEGIN CSS|JS ==================
+    %link{href:"https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700", rel: "stylesheet"}/
+    = stylesheet_link_tag    "be_one_admin/application", media: "all"
+    = javascript_include_tag "be_one_admin/application"
+    = csrf_meta_tags
+  %body.pace-top
+    / begin #page-container
+    #page-container
+      / begin error
+      .error
+        .error-code.m-b-10
+          404
+          %i.fa.fa-warning
+        .error-content
+          .error-message=t("#{BeOneAdmin.config.class_name.downcase}.404_heading")
+          .error-desc.m-b-20
+            =t("#{BeOneAdmin.config.class_name.downcase}.404_text").html_safe
+          %div
+            %a.btn.btn-success{href: root_path}=t("#{BeOneAdmin.config.class_name.downcase}.404_go_back")
+      / end error

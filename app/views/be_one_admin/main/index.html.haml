@@ -1,0 +1,120 @@
+-# - if @block_stats.any?
+-#   .row
+-#     - @block_stats.each do |block|
+-#       / begin col-3
+-#       .col-lg-3.col-md-6
+-#         .widget.widget-stats{class: "bg-gradient-#{block.color}"}
+-#           .stats-icon.stats-icon-lg
+-#             %i.fa.fa-fw{class: block.icon}
+-#           .stats-content
+-#             .stats-title=block.title
+-#             .stats-number=block.value
+-#             .stats-progress.progress
+-#               .progress-bar{:style => "width: #{block.percent}%;"}
+-#             .stats-desc=block.description
+-#       / end col-3
+-# / end row
+-# / begin row
+-# .row
+-#   / begin col-8
+-#   .col-lg-8
+-#     .widget-chart.with-sidebar.inverse-mode
+-#       .widget-chart-content.bg-black
+-#         %h4.chart-title
+-#           Visitors Analytics
+-#           %small Where do our visitors come from
+-#         #visitors-line-chart.widget-chart-full-width.nvd3-inverse-mode{:style => "height: 260px;"}
+-#       .widget-chart-sidebar.bg-black-darker
+-#         .chart-number
+-#           1,225,729
+-#           %small Total visitors
+-#         #visitors-donut-chart.nvd3-inverse-mode.p-t-10{:style => "height: 180px"}
+-#         %ul.chart-legend.f-s-11
+-#           %li
+-#             %i.fa.fa-circle.fa-fw.text-primary.f-s-9.m-r-5.t-minus-1
+-#             34.0%
+-#             %span New Visitors
+-#           %li
+-#             %i.fa.fa-circle.fa-fw.text-success.f-s-9.m-r-5.t-minus-1
+-#             56.0%
+-#             %span Return Visitors
+-#   / end col-8
+-#   / begin col-4
+-#   .col-lg-4
+-#     .panel.panel-inverse{"data-sortable-id" => "index-1"}
+-#       .panel-heading
+-#         %h4.panel-title
+-#           Visitors Origin
+-#       #visitors-map.bg-black{:style => "height: 179px;"}
+-#       .list-group
+-#         %a.list-group-item.list-group-item-inverse.d-flex.justify-content-between.align-items-center.text-ellipsis{:href => "javascript:;"}
+-#           1. United State
+-#           %span.badge.f-w-500.bg-gradient-teal.f-s-10 20.95%
+-#         %a.list-group-item.list-group-item-inverse.d-flex.justify-content-between.align-items-center.text-ellipsis{:href => "javascript:;"}
+-#           2. India
+-#           %span.badge.f-w-500.bg-gradient-blue.f-s-10 16.12%
+-#         %a.list-group-item.list-group-item-inverse.d-flex.justify-content-between.align-items-center.text-ellipsis{:href => "javascript:;"}
+-#           3. Mongolia
+-#           %span.badge.f-w-500.bg-gradient-grey.f-s-10 14.99%
+-#   / end col-4
+-# / end row
+-# / begin row
+-# .row
+-#   .col-lg-12
+-#     / begin panel
+-#     .panel.panel-inverse{"data-sortable-id" => "index-4"}
+-#       .panel-heading
+-#         %h4.panel-title
+-#           New Registered Users
+-#           %span.pull-right.label.bg-gradient-teal 24 new users
+-#       %ul.registered-users-list.clearfix
+-#         %li
+-#           %a{:href => "javascript:;"}
+-#             %img{:alt => "", :src => "../assets/img/user/user-5.jpg"}/
+-#           %h4.username.text-ellipsis
+-#             Savory Posh
+-#             %small Algerian
+-#         %li
+-#           %a{:href => "javascript:;"}
+-#             %img{:alt => "", :src => "../assets/img/user/user-3.jpg"}/
+-#           %h4.username.text-ellipsis
+-#             Ancient Caviar
+-#             %small Korean
+-#         %li
+-#           %a{:href => "javascript:;"}
+-#             %img{:alt => "", :src => "../assets/img/user/user-1.jpg"}/
+-#           %h4.username.text-ellipsis
+-#             Marble Lungs
+-#             %small Indian
+-#         %li
+-#           %a{:href => "javascript:;"}
+-#             %img{:alt => "", :src => "../assets/img/user/user-8.jpg"}/
+-#           %h4.username.text-ellipsis
+-#             Blank Bloke
+-#             %small Japanese
+-#         %li
+-#           %a{:href => "javascript:;"}
+-#             %img{:alt => "", :src => "../assets/img/user/user-2.jpg"}/
+-#           %h4.username.text-ellipsis
+-#             Hip Sculling
+-#             %small Cuban
+-#         %li
+-#           %a{:href => "javascript:;"}
+-#             %img{:alt => "", :src => "../assets/img/user/user-6.jpg"}/
+-#           %h4.username.text-ellipsis
+-#             Flat Moon
+-#             %small Nepalese
+-#         %li
+-#           %a{:href => "javascript:;"}
+-#             %img{:alt => "", :src => "../assets/img/user/user-4.jpg"}/
+-#           %h4.username.text-ellipsis
+-#             Packed Puffs
+-#             %small Malaysian>
+-#         %li
+-#           %a{:href => "javascript:;"}
+-#             %img{:alt => "", :src => "../assets/img/user/user-9.jpg"}/
+-#           %h4.username.text-ellipsis
+-#             Clay Hike
+-#             %small Swedish
+-#       .panel-footer.text-center
+-#         %a.text-inverse{:href => "javascript:;"} View All
