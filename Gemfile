@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
-source "https://github.com/olehkovalchuk/be_one_core" do
-  gem 'be_one_core'
-end
+gem 'be_one_core', git: "https://github.com/olehkovalchuk/be_one_core.git"
 # gem 'be_one_core', path: "components/be_one_core"
 # path "../" do
 #   gem 'be_one_core'
